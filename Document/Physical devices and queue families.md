@@ -189,7 +189,7 @@ bool isDeviceSuitable(VkPhysicalDevice device) {
 
  동일한 Property(특성)를 가진 Queue의 집합을 의미
 
-![image-20220731211640700](C:\Users\JBK\AppData\Roaming\Typora\typora-user-images\image-20220731211640700.png)
+![image](https://user-images.githubusercontent.com/16304843/182026540-aa5cb247-832d-4462-8a95-92c567626f2c.png)
 
 Vulkan에서는 위 Command를 실행하기 위해서 먼저 Command Buffer에 Command를 저장한다. 나중에 Command Buffer를 생성하는 코드 역시 작성해야 한다. Command가 저장된 Command Buffer는 다시 Queue를 통해서 GPU로 전달된다
 
@@ -205,7 +205,7 @@ Vulkan에서는 위 Command를 실행하기 위해서 먼저 Command Buffer에 C
 
 device가 지원하는 **queue family**와 사용하려는 command을 지원하는 **queue family**를 확인해야 합니다. `findQueueFamilies`이를 위해 우리 는 필요한 모든 **queue family**를 찾는 새로운 기능을 추가할 것입니다.
 
-![image-20220731212142600](C:\Users\JBK\AppData\Roaming\Typora\typora-user-images\image-20220731212142600.png)
+![image](https://user-images.githubusercontent.com/16304843/182026577-1865b7c6-28a4-491f-9f53-085882b8c2f3.png)
 
 지금은 그래픽 명령을 지원하는 queue만 찾을 것이므로 함수는 다음과 같을 수 있습니다.
 
