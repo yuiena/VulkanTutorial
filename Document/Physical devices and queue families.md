@@ -1,12 +1,22 @@
-# Physical devices 와 queue families
-
 - physical device 선택
 - 기본 장치 적합성 검사
 - Queue families
 
+### Queue Family?
+ 동일한 Property(특성)를 가진 Queue의 집합을 의미
 
+![image](https://user-images.githubusercontent.com/16304843/182026540-aa5cb247-832d-4462-8a95-92c567626f2c.png)
 
-## physical device 선택
+Vulkan에서는 위 Command를 실행하기 위해서 먼저 Command Buffer에 Command를 저장한다. 나중에 Command Buffer를 생성하는 코드 역시 작성해야 한다. Command가 저장된 Command Buffer는 다시 Queue를 통해서 GPU로 전달된다
+
+# Physical and Logical Device?
+https://www.youtube.com/watch?v=DRl-3c3OJLU
+Physical GPU Device(간단히 GPU라고 할 예정)
+Physical Device를 선택하고, Queue Family를 선택하였으면 다음은 Logical Device를 생성할 차례이다. Logical Device는 Physical Device와 인터페이스(Interface, 통신의 의미로 사용하면 될 것 같음)를 하기 위해서 사용한다. 
+
+---
+
+# physical device 선택
 
 Vulkan 라이브러리를 통해 초기화한 후 [`VkInstance`](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkInstance.html)시스템에서 필요한 기능을 지원하는 그래픽 카드를 찾아 선택해야 합니다. 실제로 그래픽 카드를 원하는 수만큼 선택하여 동시에 사용할 수 있지만 이 자습서에서는 필요에 맞는 첫 번째 그래픽 카드를 사용합니다.
 
@@ -184,20 +194,6 @@ bool isDeviceSuitable(VkPhysicalDevice device) {
 
 
 # Queue families
-
-### Queue Family란?
-
- 동일한 Property(특성)를 가진 Queue의 집합을 의미
-
-![image](https://user-images.githubusercontent.com/16304843/182026540-aa5cb247-832d-4462-8a95-92c567626f2c.png)
-
-Vulkan에서는 위 Command를 실행하기 위해서 먼저 Command Buffer에 Command를 저장한다. 나중에 Command Buffer를 생성하는 코드 역시 작성해야 한다. Command가 저장된 Command Buffer는 다시 Queue를 통해서 GPU로 전달된다
-
-
-
----
-
-
 
 그리기에서 텍스처 업로드에 이르기까지 Vulkan의 거의 모든 작업을 수행하려면 queue에 command을 submit해야 한다는 점에 대해 간단히 설명했습니다. 
 
