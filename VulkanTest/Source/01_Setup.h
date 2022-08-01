@@ -1,3 +1,4 @@
+#pragma once
 
 #define GLFW_INCLUDE_VULKAN
 #include "vulkan/vulkan.h"
@@ -14,6 +15,7 @@
 
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
+
 
 class HelloTriangleApplication {
 public:
@@ -43,7 +45,7 @@ private:
 	}
 
 	/**
-	 * @brief 
+	 * @brief
 	 */
 	void initVulkan()
 	{
@@ -52,7 +54,7 @@ private:
 
 	void mainLoop()
 	{
-		while (!glfwWindowShouldClose(window)) 
+		while (!glfwWindowShouldClose(window))
 		{
 			glfwPollEvents();
 		}
@@ -100,11 +102,11 @@ private:
 	}
 };
 
-int main()
+int Run()
 {
 	HelloTriangleApplication app;
 
-	try 
+	try
 	{
 		app.run();
 	}
