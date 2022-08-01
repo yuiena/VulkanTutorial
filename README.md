@@ -22,3 +22,9 @@ Vulkan Tutorial Study : https://vulkan-tutorial.com/
 | 6주차 |  |  | Render passes, Conclusion |
 | 7주차 |  |  | FrameBuffres, Command Buffers |
 | 8주차 |  |  | Rendering and presentation, Frames in flight |
+
+
+
+## ref
+
+https://github.com/David-DiGioia/vulkan-diagrams
