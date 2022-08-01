@@ -11,6 +11,9 @@ Vulkan에서는 위 Command를 실행하기 위해서 먼저 Command Buffer에 C
 Command가 저장된 Command Buffer는 다시 Queue를 통해서 GPU로 전달된다
 
 ### Physical and Logical Device?
+
+<img width="601" alt="image" src="https://user-images.githubusercontent.com/16304843/182073728-e7063172-db01-4932-a16c-a2126a1531cf.png">
+
 https://www.youtube.com/watch?v=DRl-3c3OJLU  
 Physical Device는 간단하게 GPU Device를 의미.   
 Physical Device를 선택하고, Queue Family를 선택하였으면 다음은 Logical Device(실제 application view)를 생성할 차례이다.   
