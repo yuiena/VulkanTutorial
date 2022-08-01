@@ -7,12 +7,14 @@
 
 ![image](https://user-images.githubusercontent.com/16304843/182026540-aa5cb247-832d-4462-8a95-92c567626f2c.png)
 
-Vulkan에서는 위 Command를 실행하기 위해서 먼저 Command Buffer에 Command를 저장한다. 나중에 Command Buffer를 생성하는 코드 역시 작성해야 한다. Command가 저장된 Command Buffer는 다시 Queue를 통해서 GPU로 전달된다
+Vulkan에서는 위 Command를 실행하기 위해서 먼저 Command Buffer에 Command를 저장한다. 나중에 Command Buffer를 생성하는 코드 역시 작성해야 한다. 
+Command가 저장된 Command Buffer는 다시 Queue를 통해서 GPU로 전달된다
 
 # Physical and Logical Device?
 https://www.youtube.com/watch?v=DRl-3c3OJLU
-Physical GPU Device(간단히 GPU라고 할 예정)
-Physical Device를 선택하고, Queue Family를 선택하였으면 다음은 Logical Device를 생성할 차례이다. Logical Device는 Physical Device와 인터페이스(Interface, 통신의 의미로 사용하면 될 것 같음)를 하기 위해서 사용한다. 
+Physical Device는 간단하게 GPU Device를 의미.
+Physical Device를 선택하고, Queue Family를 선택하였으면 다음은 Logical Device(SwapChain, 실제 application view)를 생성할 차례이다. 
+Logical Device는 Physical Device와 인터페이스(Interface, 통신의 의미로 사용)를 하기 위해서 사용한다. 
 
 ---
 
