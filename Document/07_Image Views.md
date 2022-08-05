@@ -1,4 +1,4 @@
-Swap chain 안에 있는 **[VkImage](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkImage.html)**를 사용하려면 render pipeline안에서 **[VkImageView](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkImageView.html)** 오브젝트를 생성해야 합니다. 
+Swap chain 안에 있는 **[VkImage](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkImage.html)** 를 사용하려면 render pipeline안에서 **[VkImageView](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkImageView.html)** 오브젝트를 생성해야 합니다. 
 
 Image view는 말 그대로 `image에 대한 view` 입니다. Image view는 `image를 엑세스하는 방법과 엑세스 할 이미지의 부분을 기술`합니다. 예를들면 image를 mipmapping 없이(엑세스할 이미지 부분) 2D texture, depth texture로(image를 엑세스하는 방법) 간주해야 할 수 있습니다.
 
