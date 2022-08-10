@@ -6,7 +6,7 @@ Bytecode 포맷 사용의 이점은 GPU 벤더가 shader code를 native code로 
 
 하지만, 이것이 bytecode를 직접 작성해야 하다는 의미는 아닙니다. Khronos는 GLSL을 SPIR-V로 컴파일하는 벤더 독립적인 자체 컴파일러를 릴리즈 했습니다. 이 컴파일러는 사용자의 shader 코드가 표준을 완벽하게 준수하는지 검증하고 어플리케이션에 적재할 수 있는 하나의 SPIR-V 바이너리를 생성하도록 설계되었습니다. 이 컴파일러를 라이브러리 형태로 포함시켜 런타임에 SPIR-V를 만들 수도 있지만, 이 튜토리얼에서는 그렇게 사용하지 않을 것입니다. `glslangValidator.exe`를 통해 이 컴파일러를 직접 사용할 수도 있지만 우리는 대신 Google의 `glslc.exe`를 사용할 것입니다.  `glslc`의 장점은 GCC나 Clang과 같이 잘 알려진 컴팡일러와 동일한 파라미터 형식을 사용하고, include같은 추가적인 기능을 포함입니다. 이들 모두 이미 Vulkan SDK에 포함되어 있으므로 이를 다운로드하기 위한 어떤 추가작업도 필요없습니다.
 
-GLSL은 C 스타일 문법을 가진 shading 언어입니다. 작성된 프로그램은 **`main`** 함수를 가지고 있고 이 함수는 모든 오브젝트에 대해 호출됩니다. input을 위한 파라미터나 output을 위한 리턴 값 대신 GLSL은 input과 output을 제어하기 위해 글로번 변수를 사용합니다. GLSL은 built-in vector, matrix primitive 같이 그래픽스 프로그래밍을 돕기 위해 여러가지 기능을 포함하고 있습니다. cross product, matrix-vector product, vector 주위의 반사 같은 작업을 위한 함수도 포함되어 있습니다. vector 타입은 **`vec`** 와 요소의 갯수를 나타내는 숫자로 이루어집니다. 예를들어 3D 위치는 **`vec3`** 에 저장됩니다. **`.x`** 같은 멤버를 통해 단일 컴포넌트에 엑세스 할 수 있고, 동시에 여러 컴포넌트에서 새로운 vector를 생성할 수도 있습니다. 예를들어 표현식 **`vec3(1.0, 2.0, 3.0).xy`**은 **`vec2`** 가 됩니다. vector 생성자는 vector 오브젝트와 스칼라 값의 조합을 취할 수도 있습니다. 예를들어 **`vec3(vec2(1.0, 2.0), 3.0)`** 으로 **`vec3`** 를 생성할수 있습니다.
+GLSL은 C 스타일 문법을 가진 shading 언어입니다. 작성된 프로그램은 **`main`** 함수를 가지고 있고 이 함수는 모든 오브젝트에 대해 호출됩니다. input을 위한 파라미터나 output을 위한 리턴 값 대신 GLSL은 input과 output을 제어하기 위해 글로번 변수를 사용합니다. GLSL은 built-in vector, matrix primitive 같이 그래픽스 프로그래밍을 돕기 위해 여러가지 기능을 포함하고 있습니다. cross product, matrix-vector product, vector 주위의 반사 같은 작업을 위한 함수도 포함되어 있습니다. vector 타입은 **`vec`** 와 요소의 갯수를 나타내는 숫자로 이루어집니다. 예를들어 3D 위치는 **`vec3`** 에 저장됩니다. **`.x`** 같은 멤버를 통해 단일 컴포넌트에 엑세스 할 수 있고, 동시에 여러 컴포넌트에서 새로운 vector를 생성할 수도 있습니다. 예를들어 표현식 **`vec3(1.0, 2.0, 3.0).xy`** 은 **`vec2`** 가 됩니다. vector 생성자는 vector 오브젝트와 스칼라 값의 조합을 취할 수도 있습니다. 예를들어 **`vec3(vec2(1.0, 2.0), 3.0)`** 으로 **`vec3`** 를 생성할수 있습니다.
 
 이전 챕터에서 언급했듯이 화면위에 삼각형을 배치시키기 위해서 vertex shader와 fragment shader를 작성해야 합니다. 다음 두 섹션에서 각각의 GLSL 코드를 살펴보겠습니다. 그 후 두개의 SPIR-V 바이너리를 어떻게 생성하는지, 그것들을 프로그램에서 어떻게 로드하는지를 보여드리겠습니다.
 
@@ -145,9 +145,9 @@ void main() {
 }
 ```
 
-Input 변수가 같은 이름일 필요는 없습니다. 그들은 **`location`**의 지시에 의한 **인덱스** 지정을 사용하여 서로 링크됩니다. 
+Input 변수가 같은 이름일 필요는 없습니다. 그들은 **`location`** 의 지시에 의한 **인덱스** 지정을 사용하여 서로 링크됩니다. 
 
-**`main`** 함수는 color 와 함께 alpha를 output 하도록 수정되었습니다. 위의 그림에서 보듯이 **`fragColor`**를 위한 값은 3개의 vertex 사이의 fragment들을 위해 자동적으로 보간되어서 부드러운 그라디언트 결과가 됩니다.
+**`main`** 함수는 color 와 함께 alpha를 output 하도록 수정되었습니다. 위의 그림에서 보듯이 **`fragColor`** 를 위한 값은 3개의 vertex 사이의 fragment들을 위해 자동적으로 보간되어서 부드러운 그라디언트 결과가 됩니다.
 
 
 
@@ -157,7 +157,7 @@ Input 변수가 같은 이름일 필요는 없습니다. 그들은 **`location`*
 
 GLSL shader에는 공식적인 확장자가 존재하지 않지만, 이 두 shader를 구분하기 위해 일반적으로 사용됩니다.
 
-**`shader.vert`**의 내용은 아래와 같아야 합니다.
+**`shader.vert`** 의 내용은 아래와 같아야 합니다.
 
 ```glsl
 #version 450
@@ -182,7 +182,7 @@ void main() {
 }
 ```
 
-그리고 **`shader.frag`**의 내용은 아래와 같아야 합니다.
+그리고 **`shader.frag`** 의 내용은 아래와 같아야 합니다.
 
 ```glsl
 #version 450
@@ -196,7 +196,7 @@ void main() {
 }
 ```
 
-이제 우리는 **`glslc`**프로그램을 사용하여 이것들을 SPIR-V bytecode로 컴파일 할 겁니다.
+이제 우리는 **`glslc`** 프로그램을 사용하여 이것들을 SPIR-V bytecode로 컴파일 할 겁니다.
 
 
 
@@ -223,7 +223,7 @@ pause
 /home/user/VulkanSDK/x.x.x.x/x86_64/bin/glslc shader.frag -o frag.spv
 ```
 
-**`glslc`**의 경로를 Vulkan SDK를 설치한 경로로 바꾸십시오. 스크립트를 **`chmod + x comiple.sh`**로 실행가능하도록 만든 뒤 실행하십시오.
+**`glslc`** 의 경로를 Vulkan SDK를 설치한 경로로 바꾸십시오. 스크립트를 **`chmod + x comiple.sh`** 로 실행가능하도록 만든 뒤 실행하십시오.
 
 
 
@@ -233,7 +233,7 @@ pause
 
 shader에 문법 오류가 있으면 컴파일러에서 줄 번호와 문제를 알려줍니다. 세미콜론을 빼먹을 채로 컴파일 스크립트를 다시 실행해 보십시오. 어떤 인자도 사용하지 않고 컴파일러를 실행해 보면 지원하는 플래그의 종류를 확인 할 수 있습니다. 예를 들어 bytecode를 사람이 읽을 수 있는 포맷으로 출력하여 shader가 무엇을 하고 있는지, 어떤 최적화가 이 단계에서 적용됬는지를 정확하게 확인할 수 있습니다.
 
-커맨드라인에서 shader를 컴파일하는 것은 가장 간단한 옵션 중 하나이며 이 튜토리얼에서 사용할 옵션이지만, 사용자 코드에서 직접 shader를 컴파일 할 수도 있습니다. Vulkan SDK에는 프로그램 내에서 GLSL을 SPIR-V로 컴파일 하는 **[libshaderc](https://github.com/google/shaderc)**라는 라이브러리가 포함되어 있습니다.
+커맨드라인에서 shader를 컴파일하는 것은 가장 간단한 옵션 중 하나이며 이 튜토리얼에서 사용할 옵션이지만, 사용자 코드에서 직접 shader를 컴파일 할 수도 있습니다. Vulkan SDK에는 프로그램 내에서 GLSL을 SPIR-V로 컴파일 하는 **[libshaderc](https://github.com/google/shaderc)** 라는 라이브러리가 포함되어 있습니다.
 
 
 
@@ -253,7 +253,7 @@ static std::vector<char> readFile(const std::string& filename) {
 }
 ```
 
-**`readfile`**함수는 지정된 파일에서 모든 byte를 읽고 **`std::vector`**로 관리되는 byte 배열에 넣어서 반환할 것입니다. 파일을 두개의 플래그로 오픈하는것 부터 시작합니다.
+**`readfile`** 함수는 지정된 파일에서 모든 byte를 읽고 **`std::vector`** 로 관리되는 byte 배열에 넣어서 반환할 것입니다. 파일을 두개의 플래그로 오픈하는것 부터 시작합니다.
 
 - **`ate`** : 파일에 끝에서 읽음
 - **`binary`** : 바이너리로 파일을 읽는다.(텍스트 변환을 방지)
@@ -279,7 +279,7 @@ file.close();
 return buffer;
 ```
 
-이제 이 함수를 **`createGraphicsPipeline`**에서 호출하여 bytecode로 된 두 shader를 로드합니다
+이제 이 함수를 **`createGraphicsPipeline`** 에서 호출하여 bytecode로 된 두 shader를 로드합니다
 
 ```cpp
 void createGraphicsPipeline() 
@@ -295,16 +295,16 @@ shader가 정확하게 로드되었는지 확인하기 위해서 buffer의 사�
 
 # Creating shader modules
 
-pipeline에 코드를 전달하기 전에 이 코드를 **[VkShaderModule](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkShaderModule.html)** 오브젝트로 래핑해야 합니다. 이를 수행하는 헬퍼 함수인 **`createShaderModule`**을 생성합니다.
+pipeline에 코드를 전달하기 전에 이 코드를 **[VkShaderModule](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkShaderModule.html)** 오브젝트로 래핑해야 합니다. 이를 수행하는 헬퍼 함수인 **`createShaderModule`** 을 생성합니다.
 
 ```cpp
 VkShaderModule createShaderModule(const std::vector<char>& code) {
 }
 ```
 
-이 함수는 bytecode로 된 buffer를 파라미터로 받아들이고 이를 가지고 **[VkShaderModule](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkShaderModule.html)**를 생성합니다.
+이 함수는 bytecode로 된 buffer를 파라미터로 받아들이고 이를 가지고 **[VkShaderModule](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkShaderModule.html)** 를 생성합니다.
 
-Shader module를 만드는 것은 간단합니다. bytecode로 된 buffer의 포인터와 buffer의 길이를 지정하기만 하면 됩니다. 이 정보는 **[VkShaderMoudleCreateInfo](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkShaderModuleCreateInfo.html)** 구조체에 지정됩니다. 하나 봐야 할 부분은 bytecode의 크기는 byte들로 지정되지만, bytecode의 포인터 타입이 **`char`** 형이 아니라 **`uint32_t`**형 이라는 것입니다. 그래서 아래에서 처럼 **`reinterpret_cast`**를 통해 포인터를 형변환해야 합니다. 이렇게 형변환을 할때 데이터가 **`uint32_t`** 타입의 정렬 요구사항을 만족하는지 확인해야 합니다. 운 좋게도 데이터가 저장되어 있는 **`std::vector`** 컨테이너의 기본 할당자가 이미 최악의 정렬 요구사항에서도 데이터가 적합하도록 보장합니다.
+Shader module를 만드는 것은 간단합니다. bytecode로 된 buffer의 포인터와 buffer의 길이를 지정하기만 하면 됩니다. 이 정보는 **[VkShaderMoudleCreateInfo](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkShaderModuleCreateInfo.html)** 구조체에 지정됩니다. 하나 봐야 할 부분은 bytecode의 크기는 byte들로 지정되지만, bytecode의 포인터 타입이 **`char`** 형이 아니라 **`uint32_t`**형 이라는 것입니다. 그래서 아래에서 처럼 **`reinterpret_cast`** 를 통해 포인터를 형변환해야 합니다. 이렇게 형변환을 할때 데이터가 **`uint32_t`** 타입의 정렬 요구사항을 만족하는지 확인해야 합니다. 운 좋게도 데이터가 저장되어 있는 **`std::vector`** 컨테이너의 기본 할당자가 이미 최악의 정렬 요구사항에서도 데이터가 적합하도록 보장합니다.
 
 ```cpp
 VkShaderModuleCreateInfo createInfo = {};
@@ -370,12 +370,12 @@ vertShaderStageInfo.pName = "main";
 
 다음 두 멤버는 코드를 가진 shader moudle과 호출해야 할 함수(***entrypoint***로 알려져 있습니다.)를 지정합니다. 
 
-이건 단일 shader module안에 여러개의 fragment shader가 결합되고 서로 다른 진입점(entry point)을 이용하여 그들의 동작을 구별할 수 있다는 의미입니다. 하지만 여기서 우린 표준인 **`main`**을 유지할 것입니다.
+이건 단일 shader module안에 여러개의 fragment shader가 결합되고 서로 다른 진입점(entry point)을 이용하여 그들의 동작을 구별할 수 있다는 의미입니다. 하지만 여기서 우린 표준인 **`main`** 을 유지할 것입니다.
 
-추가로 선택적 멤버인 **`pSpecializationInfo`**가 하나 있습니다. 여기선 이걸 사용하지 않을거지만, 논의 할 가치는 있습니다. 
+추가로 선택적 멤버인 **`pSpecializationInfo`** 가 하나 있습니다. 여기선 이걸 사용하지 않을거지만, 논의 할 가치는 있습니다. 
 
 이 멤버는 shader를 위한 상수 값을 지정할 수 있게 해줍니다. 이를 이용하면 단일 shader moudle을 사용하여 shader에서 사용되는 상수에 서로 다른 값을 지정하여 pipeline 생성시점에 동작을 구성할 수 있습니다. 이는 render time에 변수를 사용하여 shader를 구성하는 것 보다 효율적입니다. 이는 컴파일러가 이런 변수에 의존하는 **`if`** 구문을 삭제하는 것과 같은 최적화 작업을 할 수 있기 때문입니다. 
-아래처럼 아무런 상수가 없다면 이 멤버를 **`nullptr`**로 설정하면 되는데 이런 구조체 초기화는 자동적으로 수행됩니다.
+아래처럼 아무런 상수가 없다면 이 멤버를 **`nullptr`** 로 설정하면 되는데 이런 구조체 초기화는 자동적으로 수행됩니다.
 
 구조체를 fragment shader에 알맞게 수정하는 건 쉽습니다.
 
