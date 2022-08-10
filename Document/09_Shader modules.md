@@ -1,12 +1,12 @@
 
 
-이전 API들과는 달리, Vulkan의 shader code는 **[GLSL](https://en.wikipedia.org/wiki/OpenGL_Shading_Language)**이나 **[HLSL](https://en.wikipedia.org/wiki/High-Level_Shading_Language)** 처럼 사람이 읽을 수 있는 구문이 아닌 bytecode 포맷으로 지정되어야 합니다. 이 bytecode 포맷을 **[SPIR-V](https://www.khronos.org/spir)**라고 하며 Vulkan과 OpenCL(둘다 Khronos의 API임)에서 사용하기 위해 설계되었습니다. 이것은 graphics과 compute shader를 작성하기 위해 사용할 수 있는 포맷입니다. 허나 이 튜토리얼에서는 Vulkan의 graphics pipeline에서 사용하는 shader에 초첨을 맞출 것입니다.
+이전 API들과는 달리, Vulkan의 shader code는 **[GLSL](https://en.wikipedia.org/wiki/OpenGL_Shading_Language)** 이나 **[HLSL](https://en.wikipedia.org/wiki/High-Level_Shading_Language)** 처럼 사람이 읽을 수 있는 구문이 아닌 bytecode 포맷으로 지정되어야 합니다. 이 bytecode 포맷을 **[SPIR-V](https://www.khronos.org/spir)** 라고 하며 Vulkan과 OpenCL(둘다 Khronos의 API임)에서 사용하기 위해 설계되었습니다. 이것은 graphics과 compute shader를 작성하기 위해 사용할 수 있는 포맷입니다. 허나 이 튜토리얼에서는 Vulkan의 graphics pipeline에서 사용하는 shader에 초첨을 맞출 것입니다.
 
 Bytecode 포맷 사용의 이점은 GPU 벤더가 shader code를 native code로 바꾸기위한 작성한 컴파일러가 상당히 덜 복잡하다는 점입니다. 과거 GLSL같은 사람이 읽을 수 있는 문법을 사용하여 일부 GPU 벤더들은 표준을 해석하는데 다소 유연했었습니다. 이들 벤더 중 하나의 GPU로 중요한 shader를 작성한다면, 다른 벤더의 드라이버에서 문법 오류나 경고로 인해 해당 코드를 거부하거나 컴파일러 버그로 인해 shader가 다르게 동작할 위험이 있습니다. SPIR-V같은 간단한 bytecode 형식을 사용하면 이를 피할수 있을 것입니다.
 
 하지만, 이것이 bytecode를 직접 작성해야 하다는 의미는 아닙니다. Khronos는 GLSL을 SPIR-V로 컴파일하는 벤더 독립적인 자체 컴파일러를 릴리즈 했습니다. 이 컴파일러는 사용자의 shader 코드가 표준을 완벽하게 준수하는지 검증하고 어플리케이션에 적재할 수 있는 하나의 SPIR-V 바이너리를 생성하도록 설계되었습니다. 이 컴파일러를 라이브러리 형태로 포함시켜 런타임에 SPIR-V를 만들 수도 있지만, 이 튜토리얼에서는 그렇게 사용하지 않을 것입니다. `glslangValidator.exe`를 통해 이 컴파일러를 직접 사용할 수도 있지만 우리는 대신 Google의 `glslc.exe`를 사용할 것입니다.  `glslc`의 장점은 GCC나 Clang과 같이 잘 알려진 컴팡일러와 동일한 파라미터 형식을 사용하고, include같은 추가적인 기능을 포함입니다. 이들 모두 이미 Vulkan SDK에 포함되어 있으므로 이를 다운로드하기 위한 어떤 추가작업도 필요없습니다.
 
-GLSL은 C 스타일 문법을 가진 shading 언어입니다. 작성된 프로그램은 **`main`** 함수를 가지고 있고 이 함수는 모든 오브젝트에 대해 호출됩니다. input을 위한 파라미터나 output을 위한 리턴 값 대신 GLSL은 input과 output을 제어하기 위해 글로번 변수를 사용합니다. GLSL은 built-in vector, matrix primitive 같이 그래픽스 프로그래밍을 돕기 위해 여러가지 기능을 포함하고 있습니다. cross product, matrix-vector product, vector 주위의 반사 같은 작업을 위한 함수도 포함되어 있습니다. vector 타입은 **`vec`** 와 요소의 갯수를 나타내는 숫자로 이루어집니다. 예를들어 3D 위치는 **`vec3`**에 저장됩니다. **`.x`** 같은 멤버를 통해 단일 컴포넌트에 엑세스 할 수 있고, 동시에 여러 컴포넌트에서 새로운 vector를 생성할 수도 있습니다. 예를들어 표현식 **`vec3(1.0, 2.0, 3.0).xy`**은 **`vec2`**가 됩니다. vector 생성자는 vector 오브젝트와 스칼라 값의 조합을 취할 수도 있습니다. 예를들어 **`vec3(vec2(1.0, 2.0), 3.0)`**으로 **`vec3`**를 생성할수 있습니다.
+GLSL은 C 스타일 문법을 가진 shading 언어입니다. 작성된 프로그램은 **`main`** 함수를 가지고 있고 이 함수는 모든 오브젝트에 대해 호출됩니다. input을 위한 파라미터나 output을 위한 리턴 값 대신 GLSL은 input과 output을 제어하기 위해 글로번 변수를 사용합니다. GLSL은 built-in vector, matrix primitive 같이 그래픽스 프로그래밍을 돕기 위해 여러가지 기능을 포함하고 있습니다. cross product, matrix-vector product, vector 주위의 반사 같은 작업을 위한 함수도 포함되어 있습니다. vector 타입은 **`vec`** 와 요소의 갯수를 나타내는 숫자로 이루어집니다. 예를들어 3D 위치는 **`vec3`** 에 저장됩니다. **`.x`** 같은 멤버를 통해 단일 컴포넌트에 엑세스 할 수 있고, 동시에 여러 컴포넌트에서 새로운 vector를 생성할 수도 있습니다. 예를들어 표현식 **`vec3(1.0, 2.0, 3.0).xy`**은 **`vec2`** 가 됩니다. vector 생성자는 vector 오브젝트와 스칼라 값의 조합을 취할 수도 있습니다. 예를들어 **`vec3(vec2(1.0, 2.0), 3.0)`** 으로 **`vec3`** 를 생성할수 있습니다.
 
 이전 챕터에서 언급했듯이 화면위에 삼각형을 배치시키기 위해서 vertex shader와 fragment shader를 작성해야 합니다. 다음 두 섹션에서 각각의 GLSL 코드를 살펴보겠습니다. 그 후 두개의 SPIR-V 바이너리를 어떻게 생성하는지, 그것들을 프로그램에서 어떻게 로드하는지를 보여드리겠습니다.
 
@@ -20,7 +20,7 @@ Vertex shader는 들어오는 각각의 vertex를 처리합니다. Vertex shader
 
 그런 다음 이 값들은 rasterizer에 의해 fragment 위에 보간되어 부드러운 그라디언트가 됩니다.
 
-***clip coordinate***는 vertex shader의 4차원 vector이며 전체 vector를 그들의 마지막 컴포넌트로 나눠서 정규화된 디바이스 좌표(***normalized device coordinate***)로 변환된 결과입니다. 이 정규화된 디바이스 좌표는 아래처럼 frambuffer를 [-1, 1] 에서 [1,-1]의 좌표계로 매핑하는 **[동차좌표(homogeneous coordinate)](https://en.wikipedia.org/wiki/Homogeneous_coordinates)**입니다.
+***clip coordinate*** 는 vertex shader의 4차원 vector이며 전체 vector를 그들의 마지막 컴포넌트로 나눠서 정규화된 디바이스 좌표(***normalized device coordinate***)로 변환된 결과입니다. 이 정규화된 디바이스 좌표는 아래처럼 frambuffer를 [-1, 1] 에서 [1,-1]의 좌표계로 매핑하는 **[동차좌표(homogeneous coordinate)](https://en.wikipedia.org/wiki/Homogeneous_coordinates)**입니다.
 
 
 
@@ -38,7 +38,7 @@ Vertex shader는 들어오는 각각의 vertex를 처리합니다. Vertex shader
 
 
 
-우리는 vertex의 마지막 요소(w)를 **`1`**로 지정한 vertex shader로 부터 clip 좌표를 출력하여 정규화된 디바이스 좌표를 직접 출력할 수 있습니다. 
+우리는 vertex의 마지막 요소(w)를 **`1`** 로 지정한 vertex shader로 부터 clip 좌표를 출력하여 정규화된 디바이스 좌표를 직접 출력할 수 있습니다. 
 
 이렇게 하면 clip 좌표를 정규화된 디바이스 좌표로 transform 하는 부분에서 아무것도 바뀌지 않습니다.
 
@@ -68,7 +68,7 @@ void main() {
 
 각 vertex의 위치는 shader안의 상수 배열로부터 엑세스 되고 더미 **`z`** 와 **`w`** 컴포넌트가 결합되어 clip 좌표에서의 위치를 만듭니다. 
 
-Built-in 변수인 **`gl_Position`**은 output으로 사용됩니다.
+Built-in 변수인 **`gl_Position`** 은 output으로 사용됩니다.
 
 
 
@@ -94,9 +94,9 @@ Vertex shader의 **main** 함수가 모든 vertex에서 호출되는 것 처럼 
 
 GLSL에서 Color는 [0,1] 범위의 `R,G,B,A`의 4개의 채널이 있는 4-컴포넌트 vector입니다. 
 
-Vertex Shader의 **`gl_Position`**과는 다르게, 여기에는 현재 fragment의 color output을 위한 built-in 변수가 존재하지 않습니다. **`layout(location = 0)`** 수정자가 지정한 인덱스의 framebuffer 각각을 위한 고유한 output 변수를 지정해야 합니다. 
+Vertex Shader의 **`gl_Position`** 과는 다르게, 여기에는 현재 fragment의 color output을 위한 built-in 변수가 존재하지 않습니다. **`layout(location = 0)`** 수정자가 지정한 인덱스의 framebuffer 각각을 위한 고유한 output 변수를 지정해야 합니다. 
 
-붉은 색은 인덱스 **`0`**의 첫번째(현재 유일한) framebuffer에 링크된 **`outColor`** 변수에 쓰여집니다.
+붉은 색은 인덱스 **`0`** 의 첫번째(현재 유일한) framebuffer에 링크된 **`outColor`** 변수에 쓰여집니다.
 
 
 
