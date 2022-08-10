@@ -1,4 +1,4 @@
-#define GLFW_INCLUDE_VULKAN
+﻿#define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
 #include <iostream>
@@ -392,14 +392,23 @@ private:
 		auto vertShaderCode = readFile("F:\\yuiena\\VULKAN\\VulkanTest\\Res\\shader\\vert.spv");
 		auto fragShaderCode = readFile("F:\\yuiena\\VULKAN\\VulkanTest\\Res\\shader\\frag.spv");
 
+		// shaderModule은 이전에 파일에서 로드하고 함수가 정의된 shader bytecode의 얇은 레퍼일 뿐이다.
+		// 이말인 즉슨 graphics pipeline 생성이 완료되는 즉시 shader module을 파기 가능하다는 것이다. (그래서 local 변수로 만듦)
 		VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
 		VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
 
+		// VkPipelineShaderStageCreateInfo 구조체를 통해 shader를 pipeline state에 연결한다.
 		VkPipelineShaderStageCreateInfo vertShaderStageInfo{};
-		vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-		vertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
-		vertShaderStageInfo.module = vertShaderModule;
-		vertShaderStageInfo.pName = "main";
+		vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO; 
+		vertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;	// VULKAN에게 shader가 사용될 pipeline 단계를 알려줌.
+		vertShaderStageInfo.module = vertShaderModule;			// 코드를 가진 vert shader module.
+		vertShaderStageInfo.pName = "main";						// 호출해야 할 함수 지정.(entry point : 진입지점) - 이건 같은 shader안에 여러개의 shader가 결합되고 서로 다른 진입지점을 이용하여 그들의 동작을 구별 할 수 있다는 의미이다.
+
+		// 여기선 사용하지 않을거지만 이 멤버는 shader를 위한 상수 값을 지정할 수 있게 해줍니다.
+		// shader module을 사용하여 shader에서 사용되는 상수에 서로 다른 값을 지정하여 pipeline 생성시점에 동작을 구성할 수 있게 해줍니다.
+		// 이는 컴파일러가 if 구문을 사용하는 변수에 의존하는 것을 삭제할 수 있게 해줍니다.
+		//vertShaderStageInfo.pSpecializationInfo 
+
 
 		VkPipelineShaderStageCreateInfo fragShaderStageInfo{};
 		fragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -409,23 +418,27 @@ private:
 
 		VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo };
 
+
 		vkDestroyShaderModule(device, fragShaderModule, nullptr);
 		vkDestroyShaderModule(device, vertShaderModule, nullptr);
 	}
 
+	// code를 VkShaderModule 로 랩핑하기 위한 함수.
 	VkShaderModule createShaderModule(const std::vector<char>& code)
 	{
 		VkShaderModuleCreateInfo createInfo{};
 		createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 		createInfo.codeSize = code.size();
+		// byteCode의 포인터 타입이 char 형이 아니라 uint32_t 형이라 형변환 필요. 이렇게 형변환 할 때 데이터가 uint32_t 타입의 정렬 요구사항을 만족하는지 확인해야함.
 		createInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
 
 		VkShaderModule shaderModule;
+		// shaderModule을 생성하기 위해 호출.
 		if (vkCreateShaderModule(device, &createInfo, nullptr, &shaderModule) != VK_SUCCESS) 
 		{
 			throw std::runtime_error("failed to create shader module!");
 		}
-
+				
 		return shaderModule;
 	}
 
