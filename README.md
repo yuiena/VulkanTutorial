@@ -16,9 +16,9 @@ Vulkan Tutorial Study : https://vulkan-tutorial.com/
 | ------ | -- | -- |----------- |
 | 1주차 | ☑️ | ☑️ | Vulkan Setup |
 | 2주차 | ☑️ | ☑️ | Validation Layers, Physical devices and queue familes, Logical device and queues |
-| 3주차 | ☑️ |  | Window surface, Swap chain, Image view, Graphics pipeline basic Introduction |
-| 4주차 |  |  | Shader modules, Fixed functions |
-| 5주차 |  |  | Render passes, Conclusion |
+| 3주차 | ☑️ | ☑️ | Window surface, Swap chain, Image view, Graphics pipeline basic Introduction |
+| 4주차 | ☑️ | ☑️ | Shader modules, Fixed functions, Render passes |
+| 5주차 |  |  | , Conclusion |
 | 6주차 |  |  | FrameBuffres, Command Buffers |
 | 7주차 |  |  | Rendering and presentation, Frames in flight |
 | 8주차 |  |  | ~ |
