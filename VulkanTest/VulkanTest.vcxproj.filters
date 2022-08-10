@@ -15,8 +15,34 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Source\main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\02_ValidationLayer.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\01_Setup.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\03_PhysicalDevicesAndQueueFamilies.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\04_LogicalDeviceAndQueues.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\05_WindowSurface.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\06_SwapChain.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\07_ImageViews.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\08_ShaderModule.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
