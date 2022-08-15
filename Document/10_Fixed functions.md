@@ -73,7 +73,7 @@ swap chain과 그의 image들의 크기는 윈도우 **`WIDTH`**, **`HEIGHT`** �
 
 이 값은 **`[0.0f, 1.0f]`** 범위를 가져야 합니다만 **`minDepth`** 가 **`maxDepth`** 보다 클 수도 이습니다. 뭔가 특별한 작업을 하지 않는한 **`0.0f`** 와 **`1.0f`** 의 표준 값을 유지해야 합니다.
 
-viewport가 image에서 framebuffer로의 transformation을 정의하고, **scissor 사각형** 은 `실제로 픽셀이 저장될 영역을 정의`합니다.  **scissor 사각형을 벗어나는 모든 픽셀은 rasterizer에 의해 버려집니다**. 
+viewport가 image에서 framebuffer로의 transformation을 정의하고, **scissor 사각형** 은 `실제로 픽셀이 저장될 영역을 정의`합니다.  ** scissor 사각형을 벗어나는 모든 픽셀은 rasterizer에 의해 버려집니다**. 
 
 이 기능은 transformation 이라기 보단 필터에 가깝습니다. 다른 점은 아래에 이미지화 했습니다. 
 
@@ -164,7 +164,7 @@ rasterizer.depthBiasClamp = 0.0f; // Optional
 rasterizer.depthBiasSlopeFactor = 0.0f; // Optional
 ```
 
-rasterzier는 상수값을 지정하거나 fragment 기울기를 기준으로 depth 값을 편향시켜서 depth 값을 변경할 수 있습니다. 이것은 때때로 shadow mapping에서 사용되지만, 우리는 이걸 사용하지 않을 것입니다. 간단히 **`depthBiasEnable`**를 **`VK_FALSE`**로 설정합니다.
+rasterzier는 상수값을 지정하거나 fragment 기울기를 기준으로 depth 값을 편향시켜서 depth 값을 변경할 수 있습니다. 이것은 때때로 shadow mapping에서 사용되지만, 우리는 이걸 사용하지 않을 것입니다. 간단히 **`depthBiasEnable`** 를 **`VK_FALSE`** 로 설정합니다.
 
 
 
@@ -251,7 +251,7 @@ colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
 colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
 ```
 
-스펙문서에서 **[VkBlendFactor](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkBlendFactor.html)**와 **[VkBlendOp](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkBlendOp.html)** 열거값을 통해 가능한 모든 operation를 확인 할 수 있습니다.
+스펙문서에서 **[VkBlendFactor](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkBlendFactor.html)** 와 **[VkBlendOp](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkBlendOp.html)** 열거값을 통해 가능한 모든 operation를 확인 할 수 있습니다.
 
 두번째 구조체는 모든 framebuffer를 위한 구조체 배열을 참조하며 앞서 계산한 blend factor로 사용할 수 있는 blend constant를 설정할 수 있게 해줍니다.
 
@@ -319,7 +319,8 @@ if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout
 }
 ```
 
-이 구조체는 shader에 전달할 수 있는 또하나의 동적 값인 ***push constant***를 지정하는데 이는 이후 챕터에서 사용하게 될것입니다. pipeline layout은 프로그램 라이프사이클 내내 참조될 것입니다. 때문에 프로그램 종료 시점에 이를 폐기해야 합니다.
+이 구조체는 shader에 전달할 수 있는 또하나의 동적 값인 ***push constant*** 를 지정하는데 이는 이후 챕터에서 사용하게 될것입니다.   
+pipeline layout은 프로그램 라이프사이클 내내 참조될 것입니다. 때문에 프로그램 종료 시점에 이를 폐기해야 합니다.
 
 ```cpp
 void cleanup() {
@@ -336,5 +337,7 @@ void cleanup() {
 
 하지만 최종적으로 graphics pipeline를 생성시키기 위해서는 생성해야 할 오브젝트가 하나 더 있습니다. 바로 [render pass](https://www.notion.so/Drawing-a-triangle-Graphics-pipeline-basics-Render-passes-6c9c59df3ee845e6a94aafd1e4e86f9e)입니다.
 
-**[C++ code](https://vulkan-tutorial.com/code/10_fixed_functions.cpp)** / **[Vertex shader](https://vulkan-tutorial.com/code/09_shader_base.vert)** / **[Fragment shader](https://vulkan-tutorial.com/code/09_shader_base.frag)**
+**[C++ code](https://vulkan-tutorial.com/code/10_fixed_functions.cpp)**   
+**[Vertex shader](https://vulkan-tutorial.com/code/09_shader_base.vert)**   
+**[Fragment shader](https://vulkan-tutorial.com/code/09_shader_base.frag)**  
 
