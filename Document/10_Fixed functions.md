@@ -6,7 +6,7 @@ Vulkan에서는 Viewport 크기에서 부터 Color blending 기능까지 모든 
 
 # Vertex input
 
-**[VkPipelineVertexInputStateCreateInfo](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkPipelineVertexInputStateCreateInfo.html)**는 vertex shader에 전달되는 vertex 데이터의 포맷을 기술합니다. 대략 2가지 방법으로 이것을 기술합니다.
+**[VkPipelineVertexInputStateCreateInfo](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkPipelineVertexInputStateCreateInfo.html)** 는 vertex shader에 전달되는 vertex 데이터의 포맷을 기술합니다. 대략 2가지 방법으로 이것을 기술합니다.
 
 - Bindings : 데이터 간의 간격과 per-vertex 인지 per-instance(**[instancing](https://en.wikipedia.org/wiki/Geometry_instancing)** 참조) 인지 여부
 - Attribute descriptions : vertex shader에게 전달된 attribute의 타입으로 이들을 어디에서, 어떤 오프셋으로 로드 할지를 바이딩 합니다.
@@ -22,7 +22,7 @@ vertexInputInfo.vertexAttributeDescriptionCount = 0;
 vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
 ```
 
-**`pVertexBindingDescriptions`**와 **`pVertexAttributeDescriptions`** 멤버는 vertex data 로딩을 위해서 앞서 언급한 구조체 배열을 가리킵니다. 이 구조체를 **`createGraphicsPipeline`** 안에 **`shaderStage`** 배열 바로 뒤에 추가하십시오.
+**`pVertexBindingDescriptions`** 와 **`pVertexAttributeDescriptions`** 멤버는 vertex data 로딩을 위해서 앞서 언급한 구조체 배열을 가리킵니다. 이 구조체를 **`createGraphicsPipeline`** 안에 **`shaderStage`** 배열 바로 뒤에 추가하십시오.
 
 
 
@@ -40,7 +40,7 @@ vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
 
 일반적으로, vertex는 vertex buffer에서 연속된 순서의 index를 사용하여 로드됩니다. 
 
-하지만 *element buffer*를 사용하여 자체적으로 사용할 index를 지정할 수도 있습니다. 이를 통해 vertex 재사용 같은 최적화를 수행할 수 있습니다. **`primitiveRestartEnable`** 멤버를 **`VK_TRUE`**로 설정하면 특수 index인 **`0xFFFF`**나 **`0xFFFFFFFF`**를 사용하여 **`_STRIP`** topology 모드에서 선과 삼각형을 끊을 수 있습니다.
+하지만 *element buffer*를 사용하여 자체적으로 사용할 index를 지정할 수도 있습니다. 이를 통해 vertex 재사용 같은 최적화를 수행할 수 있습니다. **`primitiveRestartEnable`** 멤버를 **`VK_TRUE`** 로 설정하면 특수 index인 **`0xFFFF`** 나 **`0xFFFFFFFF`** 를 사용하여 **`_STRIP`** topology 모드에서 선과 삼각형을 끊을 수 있습니다.
 
 우리는 이 튜토리얼 전체에 걸쳐 삼각형을 그릴 계획이라 구조체를 위한 다음의 데이터를 유지합니다.
 
@@ -67,13 +67,13 @@ viewport.minDepth = 0.0f;
 viewport.maxDepth = 1.0f;
 ```
 
-swap chain과 그의 image들의 크기는 윈도우 **`WIDTH`**, **`HEIGHT`**와 다를 수 있습니다. swap chain image들은 후에 framebuffer로 사용될 것이라 우리는 이 크기를 유지해야 합니다.
+swap chain과 그의 image들의 크기는 윈도우 **`WIDTH`**, **`HEIGHT`** 와 다를 수 있습니다. swap chain image들은 후에 framebuffer로 사용될 것이라 우리는 이 크기를 유지해야 합니다.
 
-**`minDepth`**와 **`maxDepth`** 값은 framebuffer를 위한 depth 값의 범위를 지정합니다. 
+**`minDepth`** 와 **`maxDepth`** 값은 framebuffer를 위한 depth 값의 범위를 지정합니다. 
 
-이 값은 **`[0.0f, 1.0f]`** 범위를 가져야 합니다만 **`minDepth`**가 **`maxDepth`**보다 클 수도 이습니다. 뭔가 특별한 작업을 하지 않는한 **`0.0f`**와 **`1.0f`**의 표준 값을 유지해야 합니다.
+이 값은 **`[0.0f, 1.0f]`** 범위를 가져야 합니다만 **`minDepth`** 가 **`maxDepth`** 보다 클 수도 이습니다. 뭔가 특별한 작업을 하지 않는한 **`0.0f`** 와 **`1.0f`** 의 표준 값을 유지해야 합니다.
 
-viewport가 image에서 framebuffer로의 transformation을 정의하고, **scissor 사각형**은 `실제로 픽셀이 저장될 영역을 정의`합니다.  **scissor 사각형을 벗어나는 모든 픽셀은 rasterizer에 의해 버려집니다**. 
+viewport가 image에서 framebuffer로의 transformation을 정의하고, **scissor 사각형** 은 `실제로 픽셀이 저장될 영역을 정의`합니다.  **scissor 사각형을 벗어나는 모든 픽셀은 rasterizer에 의해 버려집니다**. 
 
 이 기능은 transformation 이라기 보단 필터에 가깝습니다. 다른 점은 아래에 이미지화 했습니다. 
 
@@ -122,7 +122,7 @@ rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
 rasterizer.depthClampEnable = VK_FALSE;
 ```
 
-**`depthClampEnable`**이 **`VK_TRUE`**로 설정되면 near/far plane를 벗어난 fragment들은 폐기되는 대신 **clamp**(near보다 작으면 near, far 보다 크면 far 리턴) 됩니다. 이 설정은 shadow map 같은 특별한 상황에서 유용합니다.
+**`depthClampEnable`** 이 **`VK_TRUE`** 로 설정되면 near/far plane를 벗어난 fragment들은 폐기되는 대신 **clamp** (near보다 작으면 near, far 보다 크면 far 리턴) 됩니다. 이 설정은 shadow map 같은 특별한 상황에서 유용합니다.
 
 이 기능은 GPU freature 활성화가 필요합니다.
 
@@ -130,13 +130,13 @@ rasterizer.depthClampEnable = VK_FALSE;
 rasterizer.rasterizerDiscardEnable = VK_FALSE;
 ```
 
-**`rasterizerDiscardEnable`**이 **`VK_TRUE`**로 설정되면 geometry는 rasterizer 단계를 절대 진행하지 않습니다. 이 설정은 기본적으로 framebuffer에 어떤 output도 비활성화 합니다.
+**`rasterizerDiscardEnable`** 이 **`VK_TRUE`** 로 설정되면 geometry는 rasterizer 단계를 절대 진행하지 않습니다. 이 설정은 기본적으로 framebuffer에 어떤 output도 비활성화 합니다.
 
 ```cpp
 rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
 ```
 
-**`polygonMode`**는 geometry를 위해 fragmnet가 생성되는 방법을 결정합니다. 아래의 모드들이 가능합니다.
+**`polygonMode`** 는 geometry를 위해 fragmnet가 생성되는 방법을 결정합니다. 아래의 모드들이 가능합니다.
 
 - **`VK_POLYGON_MODE_FILL`** : polygon 영역을 fragment로 채웁니다.
 - **`VK_POLYGON_MODE_LINE`** : polygon의 엣지를 선으로 그립니다.
@@ -170,7 +170,7 @@ rasterzier는 상수값을 지정하거나 fragment 기울기를 기준으로 de
 
 # Multisampling
 
-**[VkPipelineMultisampleStateCreateInfo](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkPipelineMultisampleStateCreateInfo.html)** 구조체는 multismapling을 구성합니다. 이는 **[anti-aliasing](https://en.wikipedia.org/wiki/Multisample_anti-aliasing)**을 수행하기 위한 방법 중 하나입니다. 이것은 같은 pixel로 rasterize되는 여러 polygon의 fragment shader 결과를 결합하여 동작합니다. 이는 주로 엣지를 따라 발생하며, 엣지는 가장 눈에 띄는 aliasing artifact가 발생하는 곳이기도 합니다. 오직 하나의 polygon만 픽셀에 매핑되는 경우에는 fragment shader를 여러번 실행시킬 필요가 없기 때문에 단순히 더 높은 해상도로 렌더링 한 후 이를 다운스케일링하는 것보다 훨씬 저렴합니다. 이것(multisampling)을 활성화 하려면 GPU feature를 활성화해야 합니다.
+**[VkPipelineMultisampleStateCreateInfo](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkPipelineMultisampleStateCreateInfo.html)** 구조체는 multismapling을 구성합니다. 이는 **[anti-aliasing](https://en.wikipedia.org/wiki/Multisample_anti-aliasing)** 을 수행하기 위한 방법 중 하나입니다. 이것은 같은 pixel로 rasterize되는 여러 polygon의 fragment shader 결과를 결합하여 동작합니다. 이는 주로 엣지를 따라 발생하며, 엣지는 가장 눈에 띄는 aliasing artifact가 발생하는 곳이기도 합니다. 오직 하나의 polygon만 픽셀에 매핑되는 경우에는 fragment shader를 여러번 실행시킬 필요가 없기 때문에 단순히 더 높은 해상도로 렌더링 한 후 이를 다운스케일링하는 것보다 훨씬 저렴합니다. 이것(multisampling)을 활성화 하려면 GPU feature를 활성화해야 합니다.
 
 ```cpp
 VkPipelineMultisampleStateCreateInfo multisampling = {};
@@ -189,7 +189,7 @@ multisampling.alphaToOneEnable = VK_FALSE; // Optional
 
 # Depth and stencil testing
 
-depth 와 sctencil buffer를 사용하려면 **[VkPipelineDepthStencilStateCreateInfo](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkPipelineDepthStencilStateCreateInfo.html)**를 사용하여 depth, stencil test를 구성해야 합니다. 현재는 이것이 필요하지 않은지라, 이 구조체의 포인트를 넘기는 대신 간단히 **`nullptr`**를 전달할 것입니다. 이것은 depth buffering 챕터에서 다시 확인하도록 하겠습니다.
+depth 와 sctencil buffer를 사용하려면 **[VkPipelineDepthStencilStateCreateInfo](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkPipelineDepthStencilStateCreateInfo.html)** 를 사용하여 depth, stencil test를 구성해야 합니다. 현재는 이것이 필요하지 않은지라, 이 구조체의 포인트를 넘기는 대신 간단히 **`nullptr`** 를 전달할 것입니다. 이것은 depth buffering 챕터에서 다시 확인하도록 하겠습니다.
 
 
 
@@ -200,7 +200,7 @@ fragment shader가 color를 반환한 이후, 이 color는 framebuffer에 이미
 - old/new color를 혼합하여 최종 color를 만듭니다.
 - old/new color를 bitwise operation을 이용하여 결합합니다.
 
-color blending 구성을 위해서 두가지 유형의 구조체가 존재합니다. 첫번째 구조체는 **[VkPipelineColorBlendAttachmentState](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkPipelineColorBlendAttachmentState.html)**로써 attach 된 framebuffer 마다의 구성을 포함합니다. 두번째 구조체는 **[VkPipelineColorBlendStateCreateInfo](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkPipelineColorBlendStateCreateInfo.html)**로써 *global* blending 설정을 포함합니다. 우리는 하나의 framebuffer만 가지고 있습니다.
+color blending 구성을 위해서 두가지 유형의 구조체가 존재합니다. 첫번째 구조체는 **[VkPipelineColorBlendAttachmentState](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkPipelineColorBlendAttachmentState.html)** 로써 attach 된 framebuffer 마다의 구성을 포함합니다. 두번째 구조체는 **[VkPipelineColorBlendStateCreateInfo](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkPipelineColorBlendStateCreateInfo.html)** 로써 *global* blending 설정을 포함합니다. 우리는 하나의 framebuffer만 가지고 있습니다.
 
 ```cpp
 VkPipelineColorBlendAttachmentState colorBlendAttachment = {};
@@ -230,9 +230,9 @@ else {
 finalColor = finalColor & colorWriteMask;
 ```
 
-**`blendEnable`**이 **`VK_FLASE`**로 설정되면 fragment shader의 새로운 color는 수정되지 않고 전달됩니다. 그렇지 않으면 새로운 color를 위해 두개의 혼합 operation이 동작합니다. 결과 color는 **`colorWriteMask`**와 and 연산이 이루어져서 어떤 채널이 실제로 전달될지 결정하게 됩니다.
+**`blendEnable`** 이 **`VK_FLASE`** 로 설정되면 fragment shader의 새로운 color는 수정되지 않고 전달됩니다. 그렇지 않으면 새로운 color를 위해 두개의 혼합 operation이 동작합니다. 결과 color는 **`colorWriteMask`** 와 and 연산이 이루어져서 어떤 채널이 실제로 전달될지 결정하게 됩니다.
 
-color blending을 위한 대표적인 방법은 alpha blending을 구현하는 것입니다. alpha blending은 새로운 color와 기존 color를 그들의 opacity를 기준으로 blending하는것입니다. **`finalColor`**는 다음과 같이 계산됩니다.
+color blending을 위한 대표적인 방법은 alpha blending을 구현하는 것입니다. alpha blending은 새로운 color와 기존 color를 그들의 opacity를 기준으로 blending하는것입니다. **`finalColor`** 는 다음과 같이 계산됩니다.
 
 ```cpp
 finalColor.rgb = newAlpha * newColor + (1 - newAlpha) * oldColor;
@@ -268,7 +268,7 @@ colorBlending.blendConstants[2] = 0.0f; // Optional
 colorBlending.blendConstants[3] = 0.0f; // Optional
 ```
 
-만약 blending의 두번째 방법(bitwise combination)을 사용하고 싶다면, **`logicOpEnable`**을 **`VK_TRUE`**로 설정해야 합니다. bitwise operation은 \**`logicOp`\** 필드를 통해 정의될 수 있습니다. 이렇게 하면(**`logicOpEnable`**을 **`VK_TURE`**로 설정하면) 모든 attached framebuffer에 대해 **`blendEnable`**을 **`VK_FALSE`**로 설정한 것 처럼 첫번째 방법이 자동적으로 비활성화 됩니다. **`colorWriteMask`**는 이 모드에서도 실제 영향을 받을 framebuffer의 채널을 결정하는데 사용됩니다. 두 모드를 모두 비활성화 하는 것도 가능합니다. 우리는 여기서 그렇게했죠. 이렇게 되면 fragment color는 수정없이 framebuffer에 쓰여집니다.
+만약 blending의 두번째 방법(bitwise combination)을 사용하고 싶다면, **`logicOpEnable`**을 **`VK_TRUE`** 로 설정해야 합니다. bitwise operation은 \**`logicOp`\** 필드를 통해 정의될 수 있습니다. 이렇게 하면(**`logicOpEnable`** 을 **`VK_TURE`** 로 설정하면) 모든 attached framebuffer에 대해 **`blendEnable`** 을 **`VK_FALSE`** 로 설정한 것 처럼 첫번째 방법이 자동적으로 비활성화 됩니다. **`colorWriteMask`** 는 이 모드에서도 실제 영향을 받을 framebuffer의 채널을 결정하는데 사용됩니다. 두 모드를 모두 비활성화 하는 것도 가능합니다. 우리는 여기서 그렇게했죠. 이렇게 되면 fragment color는 수정없이 framebuffer에 쓰여집니다.
 
 
 
@@ -288,7 +288,7 @@ dynamicState.dynamicStateCount = 2;
 dynamicState.pDynamicStates = dynamicStates;
 ```
 
-이 설정으로 인해 이들 값의 구성을 무시되고 드로잉 시점에 해당 데이터를 지정하는것이 필요하게 됩니다. 우리는 나중 챕터에서 이것을 다시 할겁니다. 이 구조체는 나중에 더이상 동적인 상태가 없을 때 **`nullptr`**로 대체 될 수 있습니다.
+이 설정으로 인해 이들 값의 구성을 무시되고 드로잉 시점에 해당 데이터를 지정하는것이 필요하게 됩니다. 우리는 나중 챕터에서 이것을 다시 할겁니다. 이 구조체는 나중에 더이상 동적인 상태가 없을 때 **`nullptr`** 로 대체 될 수 있습니다.
 
 
 
