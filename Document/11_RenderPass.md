@@ -22,6 +22,9 @@ void createRenderPass() {
 }
 ```
 
+
+
+
 # **Attachment Description**
 
 우리의 경우 swap chain의 이미지들 중 하나를 나타내는 단일 color buffer attachment만 있습니다.
@@ -118,6 +121,10 @@ subpass.pColorAttachments = &colorAttachmentRef;
 - **`pResolveAttachments`** : multisampling color attachment를 위해 사용하는 attachment
 - **`pDepthStencilAttachment`** : depth & stencil 데이터를 위한 attachment
 - **`pPreserveAttachments`** : 이 subpass에서 사용되지는 않지만 데이터를 보존해야하는 attachment
+
+
+
+
 
 # **Render pass**
 
