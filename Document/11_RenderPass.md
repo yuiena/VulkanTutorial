@@ -1,4 +1,4 @@
-`# Setup
+# Setup
 
 pipeline 생성을 완료하기 전에 Vulkan에게 렌더링 하는 동안 사용할 framebuffer attachment들에 대해 알려줘야 합니다. 거기에 얼마나 많은 color/depth buffer가 있는지, 그들 각각이 얼마나 많은 sample이 사용되는지, 그들의 컨텐츠를 렌더링 작업을 하는 동안 어떻게 처리해야 하는지를 지정해야 합니다. 이 모든 정보가 ***render pass*** 오브젝트에 래핑됩니다.   
 이 오브젝트를 위해 **`createRenderPass`** 함수를 생성합니다. 이 함수 호출을 **`initVulkan`** 함수안의 **`createGraphicPipeline`** 호출 전에 추가합니다.
