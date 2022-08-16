@@ -38,6 +38,9 @@ vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
 - **`VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST`** : 재사용하지 않은 모든 3개의 vertex로 이루어진 삼각형
 - **`VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP`** : 모든 삼각형의 두번째 세번째 vertex가 다음 상각형의 첫 두 vertex로 사용
 
+<img width="492" alt="image" src="https://user-images.githubusercontent.com/16304843/184845176-b74cb947-9b79-42df-87df-47539804195e.png">
+
+
 일반적으로, vertex는 vertex buffer에서 연속된 순서의 index를 사용하여 로드됩니다. 
 
 하지만 *element buffer*를 사용하여 자체적으로 사용할 index를 지정할 수도 있습니다. 이를 통해 vertex 재사용 같은 최적화를 수행할 수 있습니다. **`primitiveRestartEnable`** 멤버를 **`VK_TRUE`** 로 설정하면 특수 index인 **`0xFFFF`** 나 **`0xFFFFFFFF`** 를 사용하여 **`_STRIP`** topology 모드에서 선과 삼각형을 끊을 수 있습니다.
