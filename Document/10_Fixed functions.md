@@ -2,6 +2,7 @@
 
 Vulkan에서는 Viewport 크기에서 부터 Color blending 기능까지 모든 것을 명시적으로 해야 합니다. 이번 챕터에서는 이 fixed-function operation들을 구성하기 위한 모든 구조체들을 채울 것입니다.
 
+<img width="600" alt="image" src="https://user-images.githubusercontent.com/16304843/184851888-35214f0a-8717-49e3-906c-276118399321.png">
 
 
 # Vertex input
