@@ -1,6 +1,7 @@
-# **Setup**
+`# Setup
 
-pipeline 생성을 완료하기 전에 Vulkan에게 렌더링 하는 동안 사용할 framebuffer attachment들에 대해 알려줘야 합니다. 거기에 얼마나 많은 color/depth buffer가 있는지, 그들 각각이 얼마나 많은 sample이 사용되는지, 그들의 컨텐츠를 렌더링 작업을 하는 동안 어떻게 처리해야 하는지를 지정해야 합니다. 이 모든 정보가 ***render pass*** 오브젝트에 래핑됩니다. 이 오브젝트를 위해 **`createRenderPass`** 함수를 생성합니다. 이 함수 호출을 **`initVulkan`** 함수안의 **`createGraphicPipeline`** 호출 전에 추가합니다.
+pipeline 생성을 완료하기 전에 Vulkan에게 렌더링 하는 동안 사용할 framebuffer attachment들에 대해 알려줘야 합니다. 거기에 얼마나 많은 color/depth buffer가 있는지, 그들 각각이 얼마나 많은 sample이 사용되는지, 그들의 컨텐츠를 렌더링 작업을 하는 동안 어떻게 처리해야 하는지를 지정해야 합니다. 이 모든 정보가 ***render pass*** 오브젝트에 래핑됩니다.   
+이 오브젝트를 위해 **`createRenderPass`** 함수를 생성합니다. 이 함수 호출을 **`initVulkan`** 함수안의 **`createGraphicPipeline`** 호출 전에 추가합니다.
 
 ```cpp
 void initVulkan() {
@@ -22,10 +23,20 @@ void createRenderPass() {
 }
 ```
 
+### RenderPass
+간단하게예를 들면, Depth ▶ G Buffer ▶ Shadow Depth ▶ Lighting Accumulation ▶ Translucency로 이어지는 deferred lighting 기법을 아래와 같은 그래프로 간단히 표현할 수 있습니다.  
+
+![image](https://user-images.githubusercontent.com/16304843/184916857-0b386d88-d902-42b7-ab35-0b41a707ff11.png)  
+
+ 각 단계별로 사용하는 Attachment들이 다르며 그 Attachment간에는 종속성이 발생합니다.  
+ Attachment는 실제 리소스에 대한 기술(description)이라 생각하면 됩니다.  
+
+![image](https://user-images.githubusercontent.com/16304843/184917043-05d54fec-a709-4985-a8cf-a401784a5237.png)  
+
+각 단계롤 Render Pass라 볼 수 있으며, 이것이 사용하는 Attachment들 간의 종속성에 의해 RenderPass의 종속성이 발생합니다.  
 
 
-
-# **Attachment Description**
+# Attachment Description
 
 우리의 경우 swap chain의 이미지들 중 하나를 나타내는 단일 color buffer attachment만 있습니다.
 
@@ -162,4 +173,8 @@ void cleanup() {
 
 많은 작업이었습니다. 하지만 다음장에서 이것들이 모두 모여 최종적으로 graphics pipeline 오브젝트를 만들것입니다!
 
-**[C++ code](https://vulkan-tutorial.com/code/11_render_passes.cpp)** / **[Vertex shader](https://vulkan-tutorial.com/code/09_shader_base.vert)** / **[Fragment shader](https://vulkan-tutorial.com/code/09_shader_base.frag)**
+**[C++ code](https://vulkan-tutorial.com/code/11_render_passes.cpp)** / **[Vertex shader](https://vulkan-tutorial.com/code/09_shader_base.vert)** / **[Fragment shader](https://vulkan-tutorial.com/code/09_shader_base.frag)**  
+
+## ref
+
+https://lifeisforu.tistory.com/462?category=837815  
