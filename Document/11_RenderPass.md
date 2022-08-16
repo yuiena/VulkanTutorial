@@ -40,6 +40,10 @@ void createRenderPass() {
 
 우리의 경우 swap chain의 이미지들 중 하나를 나타내는 단일 color buffer attachment만 있습니다.
 
+> 우리가 이것을 RenderTarget이나 Image라고 부르지 않는 이유는 이것들로 Rendering할 뿐만 아니라(input Attachment) 단지 Description(Meta Data)이기 때문입니다. Render Pass 내에서 첨부 파일로 사용해야 하는 Image Frame Buffer를 통해 제공됩니다.  
+
+
+
 ```cpp
 void createRenderPass() {
 	VkAttachmentDescription colorAttachment = {};
