@@ -66,7 +66,7 @@ for (size_t i = 0; i < swapChainImageViews.size(); i++) {
 
 **`attachmentCount`** 와 **`pAttachment`** 파라미터는 **[VkImageView](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkImageView.html)** 오브젝트(render pass의 **`pAttachment`** 배열에 있는 각각의 attachment description에 바인딩 되어야 하는)를 지정합니다.
 
-**`width`**와 **`height`** 파라미터는 자동적으로 설명되며, **`layers`** 는 image 배열에 있는 layer의 수를 나타냅니다. 우리의 swap chain image들은 단일 image 이므로 layer 수는 **`1`**입니다.
+**`width`**와 **`height`** 파라미터는 자동적으로 설명되며, **`layers`** 는 image 배열에 있는 layer의 수를 나타냅니다. 우리의 swap chain image들은 단일 image 이므로 layer 수는 **`1`** 입니다.
 
 framebuffer들은 그들의 기반인 image view들과 render pass 이후에 삭제되어야 합니다. 추가로 오직 렌더링이 끝난 다음에 이를 수행해야 합니다.
 
