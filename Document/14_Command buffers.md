@@ -2,7 +2,7 @@ Vulkan의 command들은 drawing operation이나 memory 전송 처럼 함수 호�
 
 ## **Command pools**
 
-command buffer들을 만들기 전에 command pool을 만들어야 합니다. command pool은 버퍼를 저장하는데 사용되는 메모리를 관리하며 command buffer는 그 메모리로 부터 할당됩니다. **[VkCommandPool](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkCommandPool.html)**을 저장할 새로운 클래스 멤버를 추가합니다.
+command buffer들을 만들기 전에 command pool을 만들어야 합니다. command pool은 버퍼를 저장하는데 사용되는 메모리를 관리하며 command buffer는 그 메모리로 부터 할당됩니다. **[VkCommandPool](https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkCommandPool.html)** 을 저장할 새로운 클래스 멤버를 추가합니다.
 
 ```cpp
 VkCommandPool commandPool;
