@@ -18,9 +18,9 @@ Vulkan Tutorial Study : https://vulkan-tutorial.com/
 | 2주차 | ☑️ | ☑️ | Validation Layers, Physical devices and queue familes, Logical device and queues |
 | 3주차 | ☑️ | ☑️ | Window surface, Swap chain, Image view, Graphics pipeline basic Introduction |
 | 4주차 | ☑️ | ☑️ | Shader modules, Fixed functions, Render passes |
-| 5주차 |  |  | , Conclusion |
-| 6주차 |  |  | FrameBuffres, Command Buffers |
-| 7주차 |  |  | Rendering and presentation, Frames in flight |
+| 5주차 | ☑️ | ☑️ | Conclusion, FrameBuffres, Command Buffers, Rendering and presentation |
+| 6주차 |  |  |  |
+| 7주차 |  |  | Frames in flight |
 | 8주차 |  |  | ~ |
 
 
