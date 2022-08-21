@@ -82,3 +82,16 @@ void cleanup() {
 우리는 이제 렌더링에 필요한 모든 오브젝트가지는 이정표에 도달했습니다. 다음 챕터에서 첫번째 실제 drawing command를 작성할 것입니다.
 
 **[C++ code](https://vulkan-tutorial.com/code/13_framebuffers.cpp)** / **[Vertex shader](https://vulkan-tutorial.com/code/09_shader_base.vert)** / **[Fragment shader](https://vulkan-tutorial.com/code/09_shader_base.frag)**
+
+
+### OpenGL의 Framebuffer
+![image](https://user-images.githubusercontent.com/16304843/185777819-4f0b1efb-1c73-4041-9149-a3928abafea1.png)
+
+
+### Vulkan의 Framebuffer
+![image](https://user-images.githubusercontent.com/16304843/185777821-a93b8f98-35c3-4c05-9770-c088fa626d13.png)
+
+
+
+### ref
+https://dolong.notion.site/Drawing-a-triangle-Drawing-Framebuffers-004cdd5e833940faa9053cfa74584a8c
