@@ -95,6 +95,8 @@ private:
 	VkPipelineLayout pipelineLayout;
 
 	void initWindow() {
+		
+		//gltf initalize 
 		glfwInit();
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -103,7 +105,9 @@ private:
 		window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr);
 	}
 
-	void initVulkan() {
+	void initVulkan() 
+	{
+		
 		createInstance();
 		setupDebugMessenger();
 		createSurface();
@@ -144,11 +148,14 @@ private:
 		glfwTerminate();
 	}
 
-	void createInstance() {
-		if (enableValidationLayers && !checkValidationLayerSupport()) {
+	void createInstance() 
+	{
+		if (enableValidationLayers && !checkValidationLayerSupport()) 
+		{
 			throw std::runtime_error("validation layers requested, but not available!");
 		}
 
+		// application initialize data
 		VkApplicationInfo appInfo{};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 		appInfo.pApplicationName = "Hello Triangle";
@@ -157,14 +164,17 @@ private:
 		appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
 		appInfo.apiVersion = VK_API_VERSION_1_0;
 
+		// application info setting for instance create
 		VkInstanceCreateInfo createInfo{};
 		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 		createInfo.pApplicationInfo = &appInfo;
 
-		auto extensions = getRequiredExtensions();
+		// setting global extension
+		auto extensions = getRequiredExtensions();// gltf extension api
 		createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
 		createInfo.ppEnabledExtensionNames = extensions.data();
 
+		// setting validation layer
 		VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
 		if (enableValidationLayers) {
 			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
@@ -179,6 +189,7 @@ private:
 			createInfo.pNext = nullptr;
 		}
 
+		// finally! create vulkan 
 		if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
 			throw std::runtime_error("failed to create instance!");
 		}
@@ -192,13 +203,15 @@ private:
 		createInfo.pfnUserCallback = debugCallback;
 	}
 
-	void setupDebugMessenger() {
+	void setupDebugMessenger() 
+	{
 		if (!enableValidationLayers) return;
 
 		VkDebugUtilsMessengerCreateInfoEXT createInfo;
 		populateDebugMessengerCreateInfo(createInfo);
 
-		if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
+		if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) 
+		{
 			throw std::runtime_error("failed to set up debug messenger!");
 		}
 	}
@@ -630,24 +643,32 @@ private:
 		return extensions;
 	}
 
-	bool checkValidationLayerSupport() {
+	bool checkValidationLayerSupport() 
+	{
+		//what is validataion layer ? vulkan debugger
+		
 		uint32_t layerCount;
+		//useable all layer enumerate
 		vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 
 		std::vector<VkLayerProperties> availableLayers(layerCount);
 		vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
-		for (const char* layerName : validationLayers) {
+		for (const char* layerName : validationLayers) 
+		{
 			bool layerFound = false;
 
-			for (const auto& layerProperties : availableLayers) {
-				if (strcmp(layerName, layerProperties.layerName) == 0) {
+			for (const auto& layerProperties : availableLayers) 
+			{
+				if (strcmp(layerName, layerProperties.layerName) == 0) 
+				{
 					layerFound = true;
 					break;
 				}
 			}
 
-			if (!layerFound) {
+			if (!layerFound) 
+			{
 				return false;
 			}
 		}
