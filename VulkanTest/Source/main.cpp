@@ -9,7 +9,11 @@
 //#include "08_ShaderModule.h"
 
 //#include "10_RendererPass.h"
-#include "14_RenderingAndPresentation.h"
+//#include "14_RenderingAndPresentation.h"
+//#include "15_FrameInFlight.h"
+//#include "16_SwapChainRecreation.h"
+//#include "17_VertexInputDescription.h"
+#include "18_VertexBufferCreation.h"
 
 int main()
 {
