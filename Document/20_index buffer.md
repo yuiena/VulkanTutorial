@@ -2,7 +2,7 @@
 
 여러분이 실제 어플리케이션에서 렌더링할 3D mesh는 여러개의 삼각형 간에서 종종 버텍스를 공유할 것입니다. 이것은 사각형 그리기 같은 간단한 작업에서도 발생하는 일입니다.
 
-![vertex_vs_index.svg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/471a1c21-7c27-431b-a5e0-572dd5446620/vertex_vs_index.svg)
+![image](https://user-images.githubusercontent.com/16304843/191026634-0471dc77-2cc5-4660-a2d6-e4ecc3aed5ca.png)
 
 사각형 그리기는 두개의 삼각형을 가지는데 이는 6개의 버텍스를 사용하는 vertex buffer가 필요하다는 의미입니다. 문제는 두개의 버텍스 데이터가 중복되어 50%의 중복성을 야기한다는 것입니다. 이것은 버텍스들이 평균 3개의 삼각형에서 재사용되는 좀 더 복잡한 mesh에서는 문제를 더 나쁘게 합니다. 이 문제의 해결책은 ***index buffer***를 사용하는 것입니다.
 
@@ -115,7 +115,8 @@ vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0,
 
 이제 프로그램을 실행하면 여러분은 아래와 같은 것을 보게될 것입니다.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6f70246d-4b4c-42cd-b485-3f7fdb7211b6/Untitled.png)
+![image](https://user-images.githubusercontent.com/16304843/191026611-c4e45500-c8f1-43d5-9d20-398ba2519218.png)
+
 
 이제 여러분은 index buffer로 버텍스를 재사용 함으로써 메모리를 절약하는 방법을 알게되었습니다. 이는 복잡한 3D model을 로드할 이후 챕터에서 특히 중요해 질 것입니다.
 
