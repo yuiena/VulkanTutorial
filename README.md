@@ -20,8 +20,11 @@ Vulkan Tutorial Study : https://vulkan-tutorial.com/
 | 4주차 | ☑️ | ☑️ | Shader modules, Fixed functions, Render passes |
 | 5주차 | ☑️ | ☑️ | Conclusion, FrameBuffres, Command Buffers, Rendering and presentation |
 | 6주차 | ☑️ | ☑️ | Frame in flight, Swap chain recreation, Vertex Input decripition, Vertex buffer creation |
-| 7주차 |  |  | Staging buffer, Index buffer |
-| 8주차 |  |  | ~ |
+| 7주차 | ☑️ | ☑️ | Staging buffer, Index buffer |
+| 8주차 |  |  | Descriptor layout and buffer, Descriptor pool and sets |
+| 9주차 |  |  | Images, Image View and sampler, Combined image sampler |
+| 10주차 |  |  | Depth buffering |
+| 11주차 |  |  | Loading models |
 
 
 
