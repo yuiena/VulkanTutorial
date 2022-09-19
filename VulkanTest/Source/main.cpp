@@ -13,7 +13,9 @@
 //#include "15_FrameInFlight.h"
 //#include "16_SwapChainRecreation.h"
 //#include "17_VertexInputDescription.h"
-#include "18_VertexBufferCreation.h"
+//#include "18_VertexBufferCreation.h"
+//#include "19_StagingBuffer.h"
+#include "20_IndexBuffer.h"
 
 int main()
 {
